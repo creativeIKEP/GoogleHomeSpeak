@@ -3,6 +3,8 @@ import sys
 from gtts import gTTS
 import os
 import time
+import argparse
+
 
 def fetch_play(device_name, voice_url):
     #search Google Home with Chromecast device name
@@ -30,9 +32,7 @@ def generate_audio(text, language, save_path):
     tts = gTTS(text=text, lang=language)
     tts.save(save_path)
 
-def main():
-    text = "こんばんは。テストです"
-    language = "ja"
+def main(device_name, text, language):
     audio_path = "./GoogleHomeSpeak/audio.mp3"
     device_name = ""
     voice_url = ""
@@ -41,4 +41,14 @@ def main():
     fetch_play(device_name, voice_url)
     os.remove(audio_path)
 
-main()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='GoogleHomeSpeak')
+    parser.add_argument('device_name', help='Google Home device name.')
+    parser.add_argument('text', help='Text spoken by Google Home.')
+    parser.add_argument('--language', '-l', default="ja",
+                        help='Text language setting. \
+                        Default setting is Japanese. \
+                        Set to "en" if you use English.')
+    args = parser.parse_args()
+    main(args.device_name, args.text, args.language)
