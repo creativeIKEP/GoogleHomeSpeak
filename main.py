@@ -22,15 +22,23 @@ def fetch_play(device_name, voice_url):
 
     print("Playing...")
     mc.play_media(voice_url, "audio/mp3")
+    time.sleep(1)
     while mc.status.player_is_playing:
         time.sleep(1)
 
 def generate_audio(text, language, save_path):
     tts = gTTS(text=text, lang=language)
-    path = ""
     tts.save(save_path)
 
 def main():
+    text = "こんばんは。テストです"
+    language = "ja"
+    audio_path = "./GoogleHomeSpeak/audio.mp3"
+    device_name = ""
+    voice_url = ""
+
     generate_audio(text, language, audio_path)
     fetch_play(device_name, voice_url)
     os.remove(audio_path)
+
+main()
