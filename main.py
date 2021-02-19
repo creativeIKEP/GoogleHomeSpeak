@@ -4,6 +4,7 @@ from gtts import gTTS
 import os
 import time
 import argparse
+import socket
 
 
 def fetch_play(device_name, voice_url):
@@ -33,9 +34,12 @@ def generate_audio(text, language, save_path):
     tts.save(save_path)
 
 def main(device_name, text, language):
+    #get local ip address
+    ip_address = socket.gethostbyname(socket.gethostname())
+
     audio_path = "./GoogleHomeSpeak/audio.mp3"
-    device_name = ""
-    voice_url = ""
+    #set local server url
+    voice_url = "http://{}:8000".format(ip_address)
 
     generate_audio(text, language, audio_path)
     fetch_play(device_name, voice_url)
